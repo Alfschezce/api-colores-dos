@@ -3,7 +3,7 @@ import {useState} from 'react'
 
 function Formulario({crearColor}){
 	//ahora establecemos los diferentes tipos de estados y le ponemos un valor inicial en el useaState//
-	let [textoInput,setTextoInput] =useState("")
+	let [valorTexto,setvalorTexto] =useState("")
 	let [error,setError] =useState(true)
 	let [msgError,setMsgError] =useState("")
 
@@ -16,11 +16,11 @@ function Formulario({crearColor}){
 		// Establece el estado de error como falso inicialmente
 		setError(false)
 		// Validación del formato de entrada utilizando una expresión regular
-		let valido = /^([0-9]{1,3},){2}[0-9]{1,3}$/.test(textoInput)
+		let valido = /^([0-9]{1,3},){2}[0-9]{1,3}$/.test(valorTexto)
 
 		if(valido){
 			// Si la entrada es válida, separa los valores de r, g, b y los convierte en números
-			let[r,g,b] = textoInput.split(",").map(n=>Number(n));
+			let[r,g,b] = valorTexto.split(",").map(n=>Number(n));
 
 			[r,g,b].forEach(n =>valido= valido && n<=255)
 			// Si los valores son válidos, realiza una solicitud POST a la API para crear un color
@@ -38,7 +38,7 @@ function Formulario({crearColor}){
 					if(!error){ 
 						// Si no hay error, llama a la función 'crearColor' pasando el id y los valores r, g, b
 						crearColor({id,r,g,b})
-						return setTextoInput=""
+						return setvalorTexto=""
 					}
 					console.log("..error ");
 				});
@@ -59,8 +59,8 @@ function Formulario({crearColor}){
 	}}>
 		<input type="text"
 		 placeholder="rrr,ggg,bbb" 
-		 value ={textoInput}
-			onChange={evento=>setTextoInput(evento.target.value)}/>
+		 value ={valorTexto}
+			onChange={evento=>setvalorTexto(evento.target.value)}/>
 		
 		<p className={`error ${error ? "visible" : ""}`}>{msgError}</p>
 		
